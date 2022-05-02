@@ -6,17 +6,17 @@ def init_db():
     con = sqlite3.connect('streaming-markets.db')
     cur = con.cursor()
 
-    # Create table
     cur.execute('''CREATE TABLE IF NOT EXISTS Streaming
                 (Id text, Symbol text, Interval text, Close real, High real, Low real, Timestamp integer)''')
     con.commit()
+    con.close()
 
 def log_db(message):
     parsed = json.loads(message)
 
     k = parsed["k"]
 
-    id = str(uuid.uuid4().hex) #2345234jh-kjhk23-45234-jhkjhk-2345234jhkjhk
+    id = str(uuid.uuid4().hex) #Creates something like: 2345234jhkj345234jhkjhk2345234jhkjhk
     symbol = k["s"]
     interval = k["i"]
     close = float(k["c"])
@@ -25,7 +25,6 @@ def log_db(message):
     time = int(k["t"])
 
     print("log:")
-    # print(id)
     print("symbol: " + symbol)
     print("interval: " + interval)
     print("close: " + str(close))
